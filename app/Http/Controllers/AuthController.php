@@ -23,6 +23,7 @@ class AuthController extends Controller
             'name' => $validatedData['usuario'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['contraseña']),
+            'tipo' => 'cliente',
         ]);
 
         // Autenticar al usuario después del registro
