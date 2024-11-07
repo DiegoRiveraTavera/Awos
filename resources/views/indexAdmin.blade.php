@@ -27,11 +27,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{route('productos')}}"><h4>Gestionar Productos</h4></a>
+          <a class="nav-link" href="{{route('tenis.index')}}"><h4>Gestionar Productos</h4></a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{route('sucursales')}}"><h4>Gestionar Sucursales</h4></a>
+          <a class="nav-link" href="{{route('sucursales.index')}}"><h4>Gestionar Sucursales</h4></a>
         </li>
 
         <li class="nav-item">

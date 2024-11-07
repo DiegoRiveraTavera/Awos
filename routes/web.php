@@ -36,8 +36,14 @@ Route::view('/index', 'index')->name('index');
 
 Route::view('/indexAdmin', 'indexAdmin')->name('indexAdmin');
 
-Route::view('/productos', 'productos')->name('productos');
+// routes/web.php
+use App\Http\Controllers\TeniController;
 
-Route::view('/sucursales', 'sucursales')->name('sucursales');
+Route::resource('tenis', TeniController::class);
+
+use App\Http\Controllers\SucursalesController;
+
+Route::resource('sucursales', SucursalesController::class);
 
 Route::view('/categorias', 'categorias')->name('categorias');
+
