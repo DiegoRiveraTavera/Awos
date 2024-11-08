@@ -35,9 +35,12 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{route('categorias')}}"><h4>Gestionar Categorias</h4></a>
+          <a class="nav-link" href="{{route('categorias.index')}}"><h4>Gestionar Categorias</h4></a>
         </li>
         
+        <li class="nav-item">
+          <a class="nav-link" href="{{route('users.index')}}"><h4>Gestionar Admins</h4></a>
+        </li>
         
       </ul>
     </div>

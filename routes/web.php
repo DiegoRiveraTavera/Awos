@@ -45,5 +45,10 @@ use App\Http\Controllers\SucursalesController;
 
 Route::resource('sucursales', SucursalesController::class);
 
-Route::view('/categorias', 'categorias')->name('categorias');
+use App\Http\Controllers\CategoriaController;
 
+Route::resource('categorias', CategoriaController::class);
+
+use App\Http\Controllers\UserController;
+
+Route::resource('users', UserController::class);

@@ -25,9 +25,16 @@
     @method('PUT')
 
     <div class="mb-3">
-        <label class="form-label">Modelo:</label>
-        <input type="number" name="id_model" class="form-control" value="{{ old('id_model', $teni->id_model) }}" required>
-    </div>
+            <label class="form-label">Modelo:</label>
+            <select name="id_model" class="form-control" required>
+            <option value="">Selecciona un Modelo</option>
+            @foreach($modelos as $modelo)
+            <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id ? 'selected' : '' }}>
+                {{ $modelo->nom_model }}
+            </option>
+            @endforeach
+            </select>
+        </div>
 
     <div class="mb-3">
         <label class="form-label">Talla:</label>
@@ -35,9 +42,16 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Categoría:</label>
-        <input type="text" name="categ_ten" class="form-control" maxlength="15" value="{{ old('categ_ten', $teni->categ_ten) }}" required>
-    </div>
+            <label class="form-label">Categoría:</label>
+            <select name="categ_ten" class="form-control" required>
+            <option value="id_categ">Selecciona una categoría</option>
+            @foreach($categorias as $categoria)
+            <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nombre ? 'selected' : '' }}>
+                {{ $categoria->nom_categ }}
+            </option>
+            @endforeach
+            </select>
+        </div>
 
     <div class="mb-3">
         <label class="form-label">Color:</label>
