@@ -16,7 +16,7 @@ Route::post('/login', function() {
     // Intentar autenticar al usuario
     if (Auth::attempt(['name' => $credentials['usuario'], 'password' => $credentials['contraseña'], 'tipo' => 'cliente'])) {
         // Si las credenciales son correctas, redirigir al dashboard u otra página
-        return redirect('index');
+        return redirect('catalogo');
     }elseif (Auth::attempt(['name' => $credentials['usuario'], 'password' => $credentials['contraseña'], 'tipo' => 'administrador'])) {
         return redirect('indexAdmin');
     }
@@ -32,12 +32,13 @@ Route::get('/registrarse', function() {
 
 Route::post('/registrarse', [AuthController::class, 'register'])->name('registrarse');
 
-Route::view('/index', 'index')->name('index');
+use App\Http\Controllers\TeniController;
+
+Route::get('/catalogo', [TeniController::class, 'catalogo'])->name('catalogo');
 
 Route::view('/indexAdmin', 'indexAdmin')->name('indexAdmin');
 
 // routes/web.php
-use App\Http\Controllers\TeniController;
 
 Route::resource('tenis', TeniController::class);
 

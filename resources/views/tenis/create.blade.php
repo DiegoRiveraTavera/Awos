@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{ route('tenis.store') }}" method="POST">
+    <form id="create-tenis-form" action="{{ route('tenis.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">
@@ -36,7 +36,6 @@
             @endforeach
             </select>
         </div>
-
 
         <div class="mb-3">
             <label class="form-label">Talla:</label>
@@ -80,11 +79,19 @@
             <input type="number" name="cantidad" class="form-control" value="{{ old('cantidad', 0) }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Crear Tenis</button>
+        <button type="submit" class="btn btn-primary" id="submit-button">Crear Tenis</button>
     </form>
     <br>
     <a href="{{ route('tenis.index') }}" class="btn btn-secondary">Volver a la lista</a>
 
 </div>
+
+<script>
+    document.getElementById('create-tenis-form').addEventListener('submit', function() {
+        document.getElementById('submit-button').disabled = true;
+    });
+</script>
+
 </body>
 </html>
+

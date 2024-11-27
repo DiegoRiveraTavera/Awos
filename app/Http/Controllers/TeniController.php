@@ -16,6 +16,12 @@ class TeniController extends Controller
         return view('tenis.index', compact('tenis'));
     }
 
+    public function catalogo() 
+    { 
+        $tenis = Teni::all(); 
+        return view('catalogo', compact('tenis')); // Vista para el catálogo de clientes 
+    } 
+
     public function create()
 {
     // Obtener todos los modelos y categorías

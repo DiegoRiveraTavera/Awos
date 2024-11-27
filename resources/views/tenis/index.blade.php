@@ -63,7 +63,7 @@
                 <td><img src="{{ $teni->img_ten }}" alt="Imagen de Tenis" style="width: 50px; height: 50px;"></td>
                 <td>{{ $teni->cantidad }}</td>
                 <td>
-                    <a href="{{ route('tenis.show', $teni->id_ten) }}" class="btn btn-info btn-sm">Ver</a>
+                    <!--<a href="{{ route('tenis.show', $teni->id_ten) }}" class="btn btn-info btn-sm">Ver</a>-->
                     <a href="{{ route('tenis.edit', $teni->id_ten) }}" class="btn btn-warning btn-sm">Editar</a>
                     <form action="{{ route('tenis.destroy', $teni->id_ten) }}" method="POST" style="display:inline;">
                         @csrf
@@ -81,3 +81,4 @@
 </div>
 </body>
 </html>
+
