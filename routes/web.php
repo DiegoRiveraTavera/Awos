@@ -44,6 +44,7 @@ use App\Http\Controllers\TeniController;
 // Ruta para el catálogo de productos (clientes)
 Route::get('/catalogo', [TeniController::class, 'catalogo'])->name('catalogo')->middleware('auth');
 
+
 // Ruta para el índice de administración (administradores)
 Route::view('/indexAdmin', 'indexAdmin')->name('indexAdmin')->middleware('auth');
 

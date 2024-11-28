@@ -16,11 +16,20 @@ class TeniController extends Controller
         return view('tenis.index', compact('tenis'));
     }
 
-    public function catalogo() 
+    public function catalogo(Request $request)
     { 
-        $tenis = Teni::with('modelo')->get(); 
-        return view('catalogo', compact('tenis')); // Vista para el catálogo de clientes 
-    } 
+        $categorias = Categoria::all();
+        $selectedCategory = $request->input('categoria');
+
+        if ($selectedCategory) {
+            $tenis = Teni::where('categ_ten', $selectedCategory)->with('modelo')->get();
+        } else {
+            $tenis = Teni::with('modelo')->get();
+        }
+
+        return view('catalogo', compact('tenis', 'categorias', 'selectedCategory')); 
+    }
+
 
     public function create()
 {

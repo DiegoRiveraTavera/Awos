@@ -31,6 +31,24 @@
 </nav>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Bienvenido al Catálogo</h1>
+
+    <!-- Filtro por Categorías -->
+    <div class="mb-4">
+        <form action="{{ route('catalogo') }}" method="GET">
+            <div class="form-group">
+                <label for="categoria">Filtrar por Categoría:</label>
+                <select name="categoria" id="categoria" class="form-control" onchange="this.form.submit()">
+                    <option value="">Todas las Categorías</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->nom_categ }}" {{ $selectedCategory == $categoria->nom_categ ? 'selected' : '' }}>
+                            {{ $categoria->nom_categ }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </form>
+    </div>
+
     <div class="row">
         @foreach ($tenis as $teni)
             <div class="col-md-4 mb-4">
@@ -58,3 +76,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
