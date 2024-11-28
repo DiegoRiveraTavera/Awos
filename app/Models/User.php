@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function listaDeseos() 
+    { 
+        return $this->belongsToMany(Teni::class, 'lista_deseos', 'user_id', 'teni_id'); 
+    }
 }

@@ -46,7 +46,8 @@
             <p>{{ $teni->cantidad }}</p>
         </div>
         <div class="d-flex justify-content-between mt-4">
-            <a href="{{ route('catalogo') }}" class="btn btn-secondary">Volver al Catalogo</a>
+            <a href="{{ route('catalogo') }}" class="btn btn-secondary">Ir a Catalogo</a>
+            <a href="{{ route('lista_deseos.index') }}" class="btn btn-primary">Ir a Lista de Deseos</a>
             <!--<a href="{{ route('tenis.edit', $teni->id_ten) }}" class="btn btn-warning">Editar</a>
             <form action="{{ route('tenis.destroy', $teni->id_ten) }}" method="POST" style="display:inline;">
                 @csrf

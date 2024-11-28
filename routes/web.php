@@ -72,3 +72,12 @@ use App\Http\Controllers\CarritoController;
 Route::get('/carrito', [CarritoController::class, 'view'])->name('carrito.view');
 Route::post('/carrito/agregar/{id}', [CarritoController::class, 'add'])->name('carrito.add');
 Route::post('/carrito/eliminar/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
+
+use App\Http\Controllers\ListaDeseosController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/lista-deseos/add/{teni_id}', [ListaDeseosController::class, 'add'])->name('lista_deseos.add');
+    Route::post('/lista-deseos/remove/{teni_id}', [ListaDeseosController::class, 'remove'])->name('lista_deseos.remove');
+    Route::get('/lista-deseos', [ListaDeseosController::class, 'index'])->name('lista_deseos.index');
+});
+

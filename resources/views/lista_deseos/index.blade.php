@@ -1,9 +1,11 @@
+<!-- resources/views/lista_deseos/index.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Tenis</title>
+    <title>Lista de Deseos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -33,27 +35,9 @@
     </div>
 </nav>
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Bienvenido al Catálogo</h1>
-
-    <!-- Filtro por Categorías -->
-    <div class="mb-4">
-        <form action="{{ route('catalogo') }}" method="GET">
-            <div class="form-group">
-                <label for="categoria">Filtrar por Categoría:</label>
-                <select name="categoria" id="categoria" class="form-control" onchange="this.form.submit()">
-                    <option value="">Todas las Categorías</option>
-                    @foreach ($categorias as $categoria)
-                        <option value="{{ $categoria->nom_categ }}" {{ $selectedCategory == $categoria->nom_categ ? 'selected' : '' }}>
-                            {{ $categoria->nom_categ }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </form>
-    </div>
-
+    <h1 class="text-center mb-4">Mi Lista de Deseos</h1>
     <div class="row">
-        @foreach ($tenis as $teni)
+        @foreach ($listaDeseos as $teni)
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <img src="{{ asset($teni->img_ten) }}" class="card-img-top" alt="Imagen de {{ $teni->categ_ten }}">
@@ -66,21 +50,14 @@
                             <strong>Precio:</strong> ${{ $teni->prec_ten }}
                         </p>
                         <a href="{{ route('tenis.show', $teni->id_ten) }}" class="btn btn-primary">Ver detalles</a>
+                        <form action="{{ route('lista_deseos.remove', $teni->id_ten) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Eliminar de la lista de deseos</button>
+                        </form>
                         <form action="{{ route('carrito.add', $teni->id_ten) }}" method="POST" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn btn-primary">Agregar al carrito</button>
                         </form>
-                        @if(auth()->user()->listaDeseos->contains($teni->id_ten))
-                            <form action="{{ route('lista_deseos.remove', $teni->id_ten) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Eliminar de la lista de deseos</button>
-                            </form>
-                        @else
-                            <form action="{{ route('lista_deseos.add', $teni->id_ten) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-secondary">Añadir a la lista de deseos</button>
-                            </form>
-                        @endif
                     </div>
                 </div>
             </div>
