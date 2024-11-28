@@ -1,3 +1,5 @@
+<!-- resources/views/catalogo.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +41,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $teni->categ_ten }}</h5>
                         <p class="card-text">
-                            <strong>Modelo:</strong> {{ $teni->id_model }}<br>
+                            <strong>Modelo:</strong> {{ $teni->modelo ? $teni->modelo->nom_model : 'N/A' }}<br>
                             <strong>Talla:</strong> {{ $teni->num_talla }}<br>
                             <strong>Color:</strong> {{ $teni->color_ten }}<br>
                             <strong>Precio:</strong> ${{ $teni->prec_ten }}

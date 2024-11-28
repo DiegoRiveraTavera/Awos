@@ -17,7 +17,7 @@
         </div>-->
         <div class="mb-3">
             <p class="mb-1"><strong>Modelo:</strong></p>
-            <p>{{ $teni->id_model }}</p>
+            <p>{{ $teni->modelo->nom_model }}</p>
         </div>
         <div class="mb-3">
             <p class="mb-1"><strong>Talla:</strong></p>
@@ -60,4 +60,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

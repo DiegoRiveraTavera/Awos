@@ -1,5 +1,6 @@
 <?php
 // app/Http/Controllers/CarritoController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ class CarritoController extends Controller
 {
     public function add(Request $request, $id)
     {
-        $teni = Teni::find($id);
+        $teni = Teni::with('modelo')->find($id);
         if (!$teni) {
             return redirect()->route('catalogo')->with('error', 'Producto no encontrado');
         }
@@ -21,7 +22,7 @@ class CarritoController extends Controller
         } else {
             $carrito[$id] = [
                 "id" => $teni->id_ten,
-                "modelo" => $teni->id_model,
+                "modelo" => $teni->modelo->nom_model,
                 "categoria" => $teni->categ_ten,
                 "talla" => $teni->num_talla,
                 "color" => $teni->color_ten,

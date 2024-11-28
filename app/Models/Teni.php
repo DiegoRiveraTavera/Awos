@@ -1,6 +1,6 @@
 <?php
-
 // app/Models/Teni.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,4 +17,9 @@ class Teni extends Model
         'prec_ten', 'costo_ten', 'img_ten', 'cantidad'
     ];
     public $timestamps = false;
+
+    public function modelo()
+    {
+        return $this->belongsTo(Modelo::class, 'id_model', 'id_model');
+    }
 }

@@ -44,7 +44,6 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Producto</th>
                     <th>Modelo</th>
                     <th>Categoría</th>
                     <th>Talla</th>
@@ -57,7 +56,6 @@
             <tbody>
                 @foreach($carrito as $id => $details)
                     <tr>
-                        <td>{{ $details['id'] }}</td>
                         <td>{{ $details['modelo'] }}</td>
                         <td>{{ $details['categoria'] }}</td>
                         <td>{{ $details['talla'] }}</td>
