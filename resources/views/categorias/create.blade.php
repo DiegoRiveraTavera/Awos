@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{ route('categorias.store') }}" method="POST">
+    <form id="form-categoria" action="{{ route('categorias.store') }}" method="POST">
         @csrf
         
 
@@ -31,11 +31,18 @@
             <input type="text" name="nom_categ" class="form-control" maxlength="15" value="{{ old('nom_categ') }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Crear Categoria</button>
+        <button type="submit" class="btn btn-primary" id="boton" >Crear Categoria</button>
     </form>
     <br>
     <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Volver a la lista</a>
 
 </div>
+
+<script>
+    document.getElementById('form-categoria').addEventListener('submit', function() {
+        document.getElementById('boton').disabled = true;
+    });
+</script>
+
 </body>
 </html>

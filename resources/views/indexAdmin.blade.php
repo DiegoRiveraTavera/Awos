@@ -23,7 +23,10 @@
         </li>
   
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('login') }}"><h4>Salir</h4></a>
+        <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Salir</button>
+                </form>
         </li>
 
         <li class="nav-item">

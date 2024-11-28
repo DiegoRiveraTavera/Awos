@@ -19,7 +19,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Salir</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Salir</button>
+                </form>
                 </li>
             </ul>
         </div>

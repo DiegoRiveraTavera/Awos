@@ -17,8 +17,11 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('login') }}"><h4>Salir</h4></a>
-        </li>
+        <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Salir</button>
+                </form>
+      </li>
       </ul>
     </div>
   </div>

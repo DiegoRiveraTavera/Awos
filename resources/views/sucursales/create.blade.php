@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{ route('sucursales.store') }}" method="POST">
+    <form id="form-sucursal" action="{{ route('sucursales.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label class="form-label">Ciudad:</label>
@@ -59,11 +59,16 @@
             <input type="number" name="cp_suc" class="form-control" value="{{ old('cp_suc') }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Crear Sucursal</button>
+        <button type="submit" class="btn btn-primary" id="boton">Crear Sucursal</button>
     </form>
     <br>
-    <a href="{{ route('sucursales.index') }}" class="btn btn-secondary">Volver a la lista</a>
+    <a href="{{ route('sucursales.index') }}" class="btn btn-secondary" >Volver a la lista</a>
 
 </div>
+<script>
+    document.getElementById('form-sucursal').addEventListener('submit', function() {
+        document.getElementById('boton').disabled = true;
+    });
+</script>
 </body>
 </html>
