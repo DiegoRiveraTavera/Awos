@@ -1,5 +1,3 @@
-<!-- resources/views/catalogo.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +17,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Salir</button>
-                </form>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Salir</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('carrito.view') }}">Ver Carrito</a>
                 </li>
             </ul>
         </div>
@@ -44,7 +45,10 @@
                             <strong>Precio:</strong> ${{ $teni->prec_ten }}
                         </p>
                         <a href="{{ route('tenis.show', $teni->id_ten) }}" class="btn btn-primary">Ver detalles</a>
-                        <a href="{{ route('tenis.show', $teni->id_ten) }}" class="btn btn-primary">Agregar al carrito</a>
+                        <form action="{{ route('carrito.add', $teni->id_ten) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -54,4 +58,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

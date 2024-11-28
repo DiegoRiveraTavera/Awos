@@ -62,3 +62,12 @@ Route::resource('categorias', CategoriaController::class)->middleware('auth');
 // Recursos de usuarios (CRUD)
 use App\Http\Controllers\UserController;
 Route::resource('users', UserController::class)->middleware('auth');
+
+use App\Http\Controllers\CarritoController;
+
+// Otras rutas...
+
+// Rutas del carrito
+Route::get('/carrito', [CarritoController::class, 'view'])->name('carrito.view');
+Route::post('/carrito/agregar/{id}', [CarritoController::class, 'add'])->name('carrito.add');
+Route::post('/carrito/eliminar/{id}', [CarritoController::class, 'remove'])->name('carrito.remove');
