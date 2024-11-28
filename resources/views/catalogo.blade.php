@@ -1,5 +1,3 @@
-<!-- resources/views/catalogo.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +13,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="{{ route('catalogo') }}">
-                        <img src="imagenes/logofinal.JPG" style="width: 55px; height: 55px; border-radius: 50%">
+                        <img src="{{ asset('imagenes/logofinal.JPG') }}" style="width: 55px; height: 55px; border-radius: 50%">
                     </a>
                 </li>
                 <li class="nav-item">
@@ -37,7 +35,7 @@
         @foreach ($tenis as $teni)
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <img src="imagenes/{{ $teni->img_ten }}" class="card-img-top" alt="Imagen de {{ $teni->categ_ten }}">
+                    <img src="{{ asset($teni->img_ten) }}" class="card-img-top" alt="Imagen de {{ $teni->categ_ten }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $teni->categ_ten }}</h5>
                         <p class="card-text">

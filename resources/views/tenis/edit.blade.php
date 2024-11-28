@@ -20,21 +20,21 @@
     </div>
 @endif
 
-<form action="{{ route('tenis.update', $teni->id_ten) }}" method="POST" class="mt-4">
+<form action="{{ route('tenis.update', $teni->id_ten) }}" method="POST" class="mt-4" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
     <div class="mb-3">
-            <label class="form-label">Modelo:</label>
-            <select name="id_model" class="form-control" required>
+        <label class="form-label">Modelo:</label>
+        <select name="id_model" class="form-control" required>
             <option value="">Selecciona un Modelo</option>
             @foreach($modelos as $modelo)
-            <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id ? 'selected' : '' }}>
-                {{ $modelo->nom_model }}
-            </option>
+                <option value="{{ $modelo->id_model }}" {{ old('id_model', $teni->id_model) == $modelo->id_model ? 'selected' : '' }}>
+                    {{ $modelo->nom_model }}
+                </option>
             @endforeach
-            </select>
-        </div>
+        </select>
+    </div>
 
     <div class="mb-3">
         <label class="form-label">Talla:</label>
@@ -42,16 +42,16 @@
     </div>
 
     <div class="mb-3">
-            <label class="form-label">Categoría:</label>
-            <select name="categ_ten" class="form-control" required>
+        <label class="form-label">Categoría:</label>
+        <select name="categ_ten" class="form-control" required>
             <option value="id_categ">Selecciona una categoría</option>
             @foreach($categorias as $categoria)
-            <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nombre ? 'selected' : '' }}>
-                {{ $categoria->nom_categ }}
-            </option>
+                <option value="{{ $categoria->nom_categ }}" {{ old('categ_ten', $teni->categ_ten) == $categoria->nom_categ ? 'selected' : '' }}>
+                    {{ $categoria->nom_categ }}
+                </option>
             @endforeach
-            </select>
-        </div>
+        </select>
+    </div>
 
     <div class="mb-3">
         <label class="form-label">Color:</label>
@@ -69,8 +69,8 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Imagen (URL):</label>
-        <input type="text" name="img_ten" class="form-control" maxlength="20" value="{{ old('img_ten', $teni->img_ten) }}">
+        <label class="form-label">Imagen:</label>
+        <input type="file" name="img_ten" class="form-control" accept="image/*" value="{{ old('img_ten', $teni->img_ten) }}">
     </div>
 
     <div class="mb-3">
@@ -82,7 +82,6 @@
 </form>
 <br>
 <a href="{{ route('tenis.index') }}" class="btn btn-secondary">Volver a la lista</a>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

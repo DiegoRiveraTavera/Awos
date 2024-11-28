@@ -1,5 +1,3 @@
-<!-- resources/views/tenis/show.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +39,7 @@
         </div>-->
         <div class="mb-3">
             <p class="mb-1"><strong>Imagen:</strong></p>
-            <img src="{{ $teni->img_ten }}" alt="Imagen del Teni" class="img-fluid" width="150">
+            <img src="{{ asset($teni->img_ten) }}" alt="Imagen del Teni" class="img-fluid" width="150">
         </div>
         <div class="mb-3">
             <p class="mb-1"><strong>Cantidad en Inventario:</strong></p>

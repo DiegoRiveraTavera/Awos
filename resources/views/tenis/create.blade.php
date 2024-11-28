@@ -22,18 +22,18 @@
         </div>
     @endif
 
-    <form id="create-tenis-form" action="{{ route('tenis.store') }}" method="POST">
+    <form id="create-tenis-form" action="{{ route('tenis.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
             <label class="form-label">Modelo:</label>
             <select name="id_model" class="form-control" required>
-            <option value="">Selecciona un Modelo</option>
-            @foreach($modelos as $modelo)
-            <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id ? 'selected' : '' }}>
-                {{ $modelo->nom_model }}
-            </option>
-            @endforeach
+                <option value="">Selecciona un Modelo</option>
+                @foreach($modelos as $modelo)
+                    <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id ? 'selected' : '' }}>
+                        {{ $modelo->nom_model }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -45,12 +45,12 @@
         <div class="mb-3">
             <label class="form-label">Categoría:</label>
             <select name="categ_ten" class="form-control" required>
-            <option value="id_categ">Selecciona una categoría</option>
-            @foreach($categorias as $categoria)
-            <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nombre ? 'selected' : '' }}>
-                {{ $categoria->nom_categ }}
-            </option>
-            @endforeach
+                <option value="id_categ">Selecciona una categoría</option>
+                @foreach($categorias as $categoria)
+                    <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nombre ? 'selected' : '' }}>
+                        {{ $categoria->nom_categ }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -70,8 +70,8 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Imagen (URL):</label>
-            <input type="url" name="img_ten" class="form-control" maxlength="20" value="{{ old('img_ten') }}">
+            <label class="form-label">Imagen:</label>
+            <input type="file" name="img_ten" class="form-control" accept="image/*" value="{{ old('img_ten') }}">
         </div>
 
         <div class="mb-3">
@@ -94,4 +94,3 @@
 
 </body>
 </html>
-
