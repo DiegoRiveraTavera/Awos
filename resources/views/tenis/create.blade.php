@@ -30,7 +30,7 @@
             <select name="id_model" class="form-control" required>
                 <option value="">Selecciona un Modelo</option>
                 @foreach($modelos as $modelo)
-                    <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id ? 'selected' : '' }}>
+                    <option value="{{ $modelo->id_model }}" {{ old('id_model') == $modelo->id_model ? 'selected' : '' }}>
                         {{ $modelo->nom_model }}
                     </option>
                 @endforeach
@@ -47,7 +47,7 @@
             <select name="categ_ten" class="form-control" required>
                 <option value="id_categ">Selecciona una categoría</option>
                 @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nombre ? 'selected' : '' }}>
+                    <option value="{{ $categoria->nom_categ }}" {{ old('nom_categ') == $categoria->nom_categ ? 'selected' : '' }}>
                         {{ $categoria->nom_categ }}
                     </option>
                 @endforeach
@@ -77,6 +77,18 @@
         <div class="mb-3">
             <label class="form-label">Cantidad:</label>
             <input type="number" name="cantidad" class="form-control" value="{{ old('cantidad', 0) }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Sucursal:</label>
+            <select name="cve_suc" class="form-control" required>
+                <option value="">Selecciona una Sucursal</option>
+                @foreach($sucursales as $sucursal)
+                    <option value="{{ $sucursal->cve_suc }}" {{ old('cve_suc') == $sucursal->cve_suc ? 'selected' : '' }}>
+                        {{ $sucursal->nom_suc }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary" id="submit-button">Crear Tenis</button>

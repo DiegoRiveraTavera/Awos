@@ -17,5 +17,7 @@ class Sucursales extends Model
         'ni_suc', 'cp_suc'
     ];
     public $timestamps = false;
+
+    public function inventarios() { return $this->hasMany(Inventario::class, 'id_suc'); }
 }
 

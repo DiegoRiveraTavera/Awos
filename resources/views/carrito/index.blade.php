@@ -1,5 +1,3 @@
-<!-- resources/views/carrito/index.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,34 +42,43 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Modelo</th>
-                    <th>Categoría</th>
-                    <th>Talla</th>
-                    <th>Color</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Acciones</th>
+                    <th><center>Modelo</center></th>
+                    <th><center>Categoría</center></th>
+                    <th><center>Talla</center></th>
+                    <th><center>Color</center></th>
+                    <th><center>Precio Unitario</center></th>
+                    <th><center>Cantidad</center></th>
+                    <th><center>Acciones</center></th>
                 </tr>
             </thead>
             <tbody>
+                @php $total = 0; @endphp
                 @foreach($carrito as $id => $details)
+                    @php $total += $details['precio'] * $details['cantidad']; @endphp
                     <tr>
-                        <td>{{ $details['modelo'] }}</td>
-                        <td>{{ $details['categoria'] }}</td>
-                        <td>{{ $details['talla'] }}</td>
-                        <td>{{ $details['color'] }}</td>
-                        <td>{{ $details['precio'] }}</td>
-                        <td>{{ $details['cantidad'] }}</td>
+                        <td><center>{{ $details['modelo'] }}</center></td>
+                        <td><center>{{ $details['categoria'] }}</center></td>
+                        <td><center>{{ $details['talla'] }}</center></td>
+                        <td><center>{{ $details['color'] }}</center></td>
+                        <td><center>{{ $details['precio'] }}</center></td>
+                        <td><center>{{ $details['cantidad'] }}</center></td>
                         <td>
                             <form action="{{ route('carrito.remove', $id) }}" method="POST" style="display:inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                <center><button type="submit" class="btn btn-danger btn-sm">Eliminar</button></center>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-end">
+            <h4>Total a Pagar: ${{ number_format($total, 2) }}</h4>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </div>
+        
     @else
         <p class="text-center">Tu carrito está vacío.</p>
     @endif

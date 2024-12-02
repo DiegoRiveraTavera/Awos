@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Models\Teni;
 use App\Models\Categoria;
 use App\Models\Modelo;
+use App\Models\Inventario;
+use App\Models\Sucursales;
 use Illuminate\Http\Request;
 
 class TeniController extends Controller
@@ -30,29 +32,30 @@ class TeniController extends Controller
         return view('catalogo', compact('tenis', 'categorias', 'selectedCategory')); 
     }
 
-
-    public function create()
-{
-    // Obtener todos los modelos y categorías
-    $modelos = Modelo::all();
-    $categorias = Categoria::all();
-
-    // Pasar las variables a la vista
-    return view('tenis.create', compact('modelos', 'categorias'));
-}
+    
 
     // app/Http/Controllers/TeniController.php
+    public function create()
+    {
+        $modelos = Modelo::all();
+        $categorias = Categoria::all();
+        $sucursales = Sucursales::all();
+
+        return view('tenis.create', compact('modelos', 'categorias', 'sucursales'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'id_model' => 'required',
+            'id_model' => 'required|integer',
             'num_talla' => 'required|integer',
-            'categ_ten' => 'required|string',
+            'categ_ten' => 'required|string|max:255',
             'color_ten' => 'required|string|max:15',
             'prec_ten' => 'required|numeric',
             'costo_ten' => 'required|numeric',
-            'img_ten' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // Validación de imagen
+            'img_ten' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'cantidad' => 'required|integer',
+            'cve_suc' => 'required|integer'
         ]);
 
         // Subir la imagen
@@ -67,7 +70,7 @@ class TeniController extends Controller
         }
 
         // Crear un nuevo registro de tenis
-        Teni::create([
+        $teni = Teni::create([
             'id_model' => $request->input('id_model'),
             'num_talla' => $request->input('num_talla'),
             'categ_ten' => $request->input('categ_ten'),
@@ -75,11 +78,21 @@ class TeniController extends Controller
             'prec_ten' => $request->input('prec_ten'),
             'costo_ten' => $request->input('costo_ten'),
             'img_ten' => $img_ten,
-            'cantidad' => $request->input('cantidad'),
+            'cantidad' => $request->input('cantidad')
+        ]);
+
+        // Crear un nuevo registro en inventario
+        Inventario::create([
+            'id_ten' => $teni->id_ten,
+            'cve_suc' => $request->input('cve_suc'),
+            'exist_inv' => $request->input('cantidad')
         ]);
 
         return redirect()->route('tenis.index')->with('success', 'Tenis creado con éxito.');
     }
+
+
+
 
 
 
@@ -144,8 +157,14 @@ class TeniController extends Controller
 
 
     public function destroy(Teni $teni)
-    {
-        $teni->delete();
-        return redirect()->route('tenis.index')->with('success', 'Teni eliminado con éxito.');
-    }
+{
+    // Eliminar registros relacionados en inventario
+    Inventario::where('id_ten', $teni->id_ten)->delete();
+
+    // Luego eliminar el registro de tenis
+    $teni->delete();
+
+    return redirect()->route('tenis.index')->with('success', 'Tenis eliminado con éxito.');
+}
+
 }

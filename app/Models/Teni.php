@@ -27,4 +27,14 @@ class Teni extends Model
     { 
         return $this->belongsToMany(User::class, 'lista_deseos', 'teni_id', 'user_id'); 
     }
+
+    public function sucursal() 
+    { 
+        return $this->hasOneThrough(Sucursales::class, Inventario::class, 'id_ten', 'cve_suc', 'id_ten', 'cve_suc'); 
+    }
+
+    public function inventario() 
+    { 
+        return $this->hasOne(Inventario::class, 'id_ten'); 
+    }
 }

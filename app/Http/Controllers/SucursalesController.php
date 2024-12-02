@@ -1,6 +1,6 @@
 <?php
 
-// app/Http/Controllers/TeniController.php
+// app/Http/Controllers/SucursalesController.php
 namespace App\Http\Controllers;
 
 use App\Models\Sucursales;
