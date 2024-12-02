@@ -26,7 +26,14 @@
         @csrf
         <div class="mb-3">
             <label class="form-label">Ciudad:</label>
-            <input type="number" name="cve_ciu" class="form-control" value="{{ old('cve_ciu') }}" required>
+            <select name="cve_ciu" class="form-control" required>
+                <option value="">Selecciona una Ciudad</option>
+                @foreach ($ciudades as $ciudad)
+                    <option value="{{ $ciudad->cve_ciu }}" {{ old('cve_ciu') == $ciudad->cve_ciu ? 'selected' : '' }}>
+                        {{ $ciudad->nom_ciu }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">
@@ -36,12 +43,12 @@
 
         <div class="mb-3">
             <label class="form-label">Colonia:</label>
-            <input type="text" name="col_suc" class="form-control" maxlength="15" value="{{ old('col_suc') }}" required>
+            <input type="text" name="col_suc" class="form-control" maxlength="20" value="{{ old('col_suc') }}" required>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Calle:</label>
-            <input type="text" name="calle_suc" class="form-control" maxlength="15" value="{{ old('calle_suc') }}" required>
+            <input type="text" name="calle_suc" class="form-control" maxlength="20" value="{{ old('calle_suc') }}" required>
         </div>
 
         <div class="mb-3">
@@ -51,7 +58,7 @@
 
         <div class="mb-3">
             <label class="form-label">Núm. Int.:</label>
-            <input type="number" name="ni_suc" class="form-control" value="{{ old('ni_suc') }}" required>
+            <input type="number" name="ni_suc" class="form-control" value="{{ old('ni_suc') }}">
         </div>
 
         <div class="mb-3">

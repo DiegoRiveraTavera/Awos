@@ -41,7 +41,7 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
-                <th>Contraseña</th>
+                <!--<th>Contraseña</th>-->
                 <th>Tipo</th>
                 <th>Acciones</th>
             </tr>
@@ -52,7 +52,7 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->password }}</td>
+                <!--<td>{{ $user->password }}</td>-->
                 <td>{{ $user->tipo }}</td>
                 <td>
                     <!--<a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">Ver</a>-->

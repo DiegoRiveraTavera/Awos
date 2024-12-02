@@ -1,6 +1,4 @@
 <?php
-
-// app/Http/Controllers/TeniController.php
 namespace App\Http\Controllers;
 
 use App\Models\Teni;
@@ -21,20 +19,28 @@ class TeniController extends Controller
     public function catalogo(Request $request)
     { 
         $categorias = Categoria::all();
+        $sucursales = Sucursales::all();
         $selectedCategory = $request->input('categoria');
+        $selectedSucursal = $request->input('sucursal');
+
+        $query = Teni::query();
 
         if ($selectedCategory) {
-            $tenis = Teni::where('categ_ten', $selectedCategory)->with('modelo')->get();
-        } else {
-            $tenis = Teni::with('modelo')->get();
+            $query->where('categ_ten', $selectedCategory);
         }
 
-        return view('catalogo', compact('tenis', 'categorias', 'selectedCategory')); 
+        if ($selectedSucursal) {
+            $query->whereHas('inventario', function ($query) use ($selectedSucursal) {
+                $query->where('cve_suc', $selectedSucursal);
+            });
+        }
+
+        $query->where('cantidad', '>', 0)->with('modelo');
+        $tenis = $query->get();
+
+        return view('catalogo', compact('tenis', 'categorias', 'selectedCategory', 'sucursales', 'selectedSucursal'));
     }
 
-    
-
-    // app/Http/Controllers/TeniController.php
     public function create()
     {
         $modelos = Modelo::all();
@@ -91,11 +97,6 @@ class TeniController extends Controller
         return redirect()->route('tenis.index')->with('success', 'Tenis creado con éxito.');
     }
 
-
-
-
-
-
     public function show(Teni $teni)
     {
         return view('tenis.show', compact('teni'));
@@ -109,7 +110,6 @@ class TeniController extends Controller
         return view('tenis.edit', compact('teni', 'modelos', 'categorias'));
     }
 
-    
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -119,7 +119,7 @@ class TeniController extends Controller
             'color_ten' => 'nullable|string|max:15',
             'prec_ten' => 'nullable|numeric',
             'costo_ten' => 'nullable|numeric',
-            'img_ten' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // Validación de imagen
+            'img_ten' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'cantidad' => 'nullable|integer',
         ]);
 
@@ -154,17 +154,14 @@ class TeniController extends Controller
         return redirect()->route('tenis.index')->with('success', 'Tenis actualizado con éxito.');
     }
 
-
-
     public function destroy(Teni $teni)
-{
-    // Eliminar registros relacionados en inventario
-    Inventario::where('id_ten', $teni->id_ten)->delete();
+    {
+        // Eliminar registros relacionados en inventario
+        Inventario::where('id_ten', $teni->id_ten)->delete();
 
-    // Luego eliminar el registro de tenis
-    $teni->delete();
+        // Luego eliminar el registro de tenis
+        $teni->delete();
 
-    return redirect()->route('tenis.index')->with('success', 'Tenis eliminado con éxito.');
-}
-
+        return redirect()->route('tenis.index')->with('success', 'Tenis eliminado con éxito.');
+    }
 }

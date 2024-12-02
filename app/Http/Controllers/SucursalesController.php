@@ -1,9 +1,8 @@
 <?php
-
-// app/Http/Controllers/SucursalesController.php
 namespace App\Http\Controllers;
 
 use App\Models\Sucursales;
+use App\Models\Ciudad; 
 use Illuminate\Http\Request;
 
 class SucursalesController extends Controller
@@ -16,19 +15,20 @@ class SucursalesController extends Controller
 
     public function create()
     {
-        return view('sucursales.create');
+        $ciudades = Ciudad::all();
+        return view('sucursales.create', compact('ciudades'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'cve_ciu' => 'nullable|integer',
-            'nom_suc' => 'nullable|string|max:20',
-            'col_suc' => 'nullable|string|max:20',
-            'calle_suc' => 'nullable|string|max:20',
-            'ne_suc' => 'nullable|integer',
+            'cve_ciu' => 'required|integer',
+            'nom_suc' => 'required|string|max:20',
+            'col_suc' => 'required|string|max:20',
+            'calle_suc' => 'required|string|max:20',
+            'ne_suc' => 'required|integer',
             'ni_suc' => 'nullable|integer',
-            'cp_suc' => 'nullable|integer',
+            'cp_suc' => 'required|integer',
         ]);
 
         Sucursales::create($request->all());
@@ -43,37 +43,32 @@ class SucursalesController extends Controller
     public function edit($cve_suc)
     {
         $sucursales = Sucursales::findOrFail($cve_suc);
-        return view('sucursales.edit', compact('sucursales'));
+        $ciudades = Ciudad::all(); // Obtenemos todas las ciudades
+        return view('sucursales.edit', compact('sucursales', 'ciudades'));
     }
-    
 
     public function update(Request $request, $cve_suc)
     {
-        // Validar los datos
         $request->validate([
-            'cve_ciu' => 'nullable|integer',
-            'nom_suc' => 'nullable|string|max:20',
-            'col_suc' => 'nullable|string|max:20',
-            'calle_suc' => 'nullable|string|max:20',
-            'ne_suc' => 'nullable|integer',
+            'cve_ciu' => 'required|integer',
+            'nom_suc' => 'required|string|max:20',
+            'col_suc' => 'required|string|max:20',
+            'calle_suc' => 'required|string|max:20',
+            'ne_suc' => 'required|integer',
             'ni_suc' => 'nullable|integer',
-            'cp_suc' => 'nullable|integer',
+            'cp_suc' => 'required|integer',
         ]);
     
-        // Buscar y actualizar la sucursal
         $sucursales = Sucursales::findOrFail($cve_suc);
         $sucursales->update($request->all());
     
-        // Redirigir con un mensaje de éxito
         return redirect()->route('sucursales.index')->with('success', 'Sucursal actualizada con éxito.');
     }
 
     public function destroy($cve_suc)
-{
-    $sucursales = Sucursales::findOrFail($cve_suc);
-    $sucursales->delete();
-    return redirect()->route('sucursales.index')->with('success', 'Sucursal eliminada con éxito.');
-}
-
-
+    {
+        $sucursales = Sucursales::findOrFail($cve_suc);
+        $sucursales->delete();
+        return redirect()->route('sucursales.index')->with('success', 'Sucursal eliminada con éxito.');
+    }
 }

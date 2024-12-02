@@ -66,7 +66,6 @@ Route::resource('users', UserController::class)->middleware('auth');
 
 use App\Http\Controllers\CarritoController;
 
-// Otras rutas...
 
 // Rutas del carrito
 Route::get('/carrito', [CarritoController::class, 'view'])->name('carrito.view');
@@ -80,4 +79,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/lista-deseos/remove/{teni_id}', [ListaDeseosController::class, 'remove'])->name('lista_deseos.remove');
     Route::get('/lista-deseos', [ListaDeseosController::class, 'index'])->name('lista_deseos.index');
 });
+
+Route::post('/carrito/procesarCompra', [CarritoController::class, 'procesarCompra'])->name('carrito.procesarCompra');
 

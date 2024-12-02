@@ -32,9 +32,9 @@
         <label class="form-label">Email: "{{ old('email', $user->email) }}" </label>
     </div>
 
-    <div class="mb-3">
+    <!--<div class="mb-3">
         <label class="form-label">Contraseña: "{{ old('password', $user->password) }}" </label>
-    </div>
+    </div>-->
 
     <div class="mb-3">
         <label class="form-label">Tipo:</label>

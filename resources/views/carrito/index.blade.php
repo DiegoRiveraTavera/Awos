@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=AcdwbqMmmL3MIP6qF8kEIH2Ct9FDpt0VO9hJhULcEBWjUmfS4APVUolFxoP5Bv1-0Z3hHUCJFZARbl8u&currency=MXN"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,6 +39,7 @@
             {{ session('error') }}
         </div>
     @endif
+    @php $total = 0; @endphp <!-- Definición inicial de $total -->
     @if($carrito)
         <table class="table table-bordered">
             <thead>
@@ -52,7 +54,6 @@
                 </tr>
             </thead>
             <tbody>
-                @php $total = 0; @endphp
                 @foreach($carrito as $id => $details)
                     @php $total += $details['precio'] * $details['cantidad']; @endphp
                     <tr>
@@ -73,16 +74,58 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-end">
-            <h4>Total a Pagar: ${{ number_format($total, 2) }}</h4>
+            <h4>Total a Pagar: ${{ number_format($total, 2) }} MXN</h4>
         </div>
         <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary">Pagar</button>
+            <div id="paypal-button-container"></div>
         </div>
-        
     @else
         <p class="text-center">Tu carrito está vacío.</p>
     @endif
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{ $total }}',
+                        currency_code: 'MXN'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Llamada AJAX a tu servidor para procesar el pedido
+                fetch('{{ route("carrito.procesarCompra") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        detalles: details
+                    })
+                }).then(function(response) {
+                    if (response.ok) {
+                        // Redirigir al usuario a una página de confirmación o vaciar el carrito
+                        window.location.href = "{{ route('catalogo') }}";
+                    } else {
+                        return response.json().then(err => { alert('Error: ' + err.message); });
+                    }
+                }).catch(function(error) {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error con la transacción');
+                });
+            });
+        },
+        onError: function(err) {
+            console.error('Error con PayPal:', err);
+            alert('Ocurrió un error con la transacción');
+        }
+    }).render('#paypal-button-container');
+</script>
 </body>
 </html>

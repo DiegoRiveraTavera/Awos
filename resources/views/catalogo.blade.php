@@ -35,7 +35,7 @@
 <div class="container mt-5">
     <h1 class="text-center mb-4">Bienvenido al Catálogo</h1>
 
-    <!-- Filtro por Categorías -->
+    <!-- Filtro por Categorías y Sucursales -->
     <div class="mb-4">
         <form action="{{ route('catalogo') }}" method="GET">
             <div class="form-group">
@@ -45,6 +45,17 @@
                     @foreach ($categorias as $categoria)
                         <option value="{{ $categoria->nom_categ }}" {{ $selectedCategory == $categoria->nom_categ ? 'selected' : '' }}>
                             {{ $categoria->nom_categ }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group mt-3">
+                <label for="sucursal">Filtrar por Sucursal:</label>
+                <select name="sucursal" id="sucursal" class="form-control" onchange="this.form.submit()">
+                    <option value="">Todas las Sucursales</option>
+                    @foreach ($sucursales as $sucursal)
+                        <option value="{{ $sucursal->cve_suc }}" {{ $selectedSucursal == $sucursal->cve_suc ? 'selected' : '' }}>
+                            {{ $sucursal->nom_suc }}
                         </option>
                     @endforeach
                 </select>
