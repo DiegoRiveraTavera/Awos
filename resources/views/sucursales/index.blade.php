@@ -42,7 +42,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Ciudad</th>
+                <!--<th>Ciudad</th>-->
                 <th>Nombre</th>
                 <th>Colonia</th>
                 <th>Calle</th>
@@ -56,7 +56,7 @@
             @foreach($sucursales as $sucursal)
             <tr>
                 <td>{{ $sucursal->cve_suc }}</td>
-                <td>{{ $sucursal->cve_ciu }}</td>
+                <!--<td>{{ $sucursal->cve_ciu }}</td>-->
                 <td>{{ $sucursal->nom_suc }}</td>
                 <td>{{ $sucursal->col_suc }}</td>
                 <td>{{ $sucursal->calle_suc }}</td>
