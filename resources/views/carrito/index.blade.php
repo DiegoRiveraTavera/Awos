@@ -39,8 +39,8 @@
             {{ session('error') }}
         </div>
     @endif
-    @php $total = 0; @endphp <!-- Definición inicial de $total -->
-    @if($carrito)
+    @php $total = 0; @endphp
+    @if(!empty($carrito)) <!-- Verificación correcta -->
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -74,11 +74,14 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-end">
-            <h4>Total a Pagar: ${{ number_format($total, 2) }} MXN</h4>
+            <h4>Total a Pagar(IVA Incluido): ${{ number_format($total, 2) }} MXN</h4>
         </div>
         <div class="d-flex justify-content-end">
-            <div id="paypal-button-container"></div>
-        </div>
+    @if(!empty($carrito) && $total > 0)
+        <div id="paypal-button-container"></div>
+    @endif
+</div>
+
     @else
         <p class="text-center">Tu carrito está vacío.</p>
     @endif
@@ -111,20 +114,20 @@
                 }).then(function(response) {
                     if (response.ok) {
                         // Redirigir al usuario a una página de confirmación o vaciar el carrito
-                        window.location.href = "{{ route('catalogo') }}";
+                        window.location.href = "{{ route('carrito.facturaPregunta') }}";
                     } else {
                         return response.json().then(err => { alert('Error: ' + err.message); });
                     }
                 }).catch(function(error) {
                     console.error('Error:', error);
-                    alert('Ocurrió un error con la transacción');
+                    alert('Ocurrió un error con paypal');
                 });
             });
         },
-        onError: function(err) {
+        /*onError: function(err) {
             console.error('Error con PayPal:', err);
-            alert('Ocurrió un error con la transacción');
-        }
+            alert('Ocurrió un error, checalo');
+        }*/
     }).render('#paypal-button-container');
 </script>
 </body>

@@ -82,3 +82,10 @@ Route::middleware(['auth'])->group(function () {
 
 Route::post('/carrito/procesarCompra', [CarritoController::class, 'procesarCompra'])->name('carrito.procesarCompra');
 
+Route::get('/carrito/facturaPregunta', [CarritoController::class, 'facturaPregunta'])->name('carrito.facturaPregunta'); 
+// Ruta para mostrar el formulario de factura 
+Route::get('/carrito/factura', [CarritoController::class, 'mostrarFormularioFactura'])->name('carrito.factura'); 
+// Ruta para generar la factura en PDF 
+Route::post('/carrito/generarFactura', [CarritoController::class, 'generarFactura'])->name('carrito.generarFactura');
+
+

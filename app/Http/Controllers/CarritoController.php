@@ -3,8 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teni;
-use App\Models\Inventario;
 use Illuminate\Support\Facades\Log;
+use Dompdf\Dompdf; // Importa la clase Dompdf
 
 class CarritoController extends Controller
 {
@@ -63,30 +63,93 @@ class CarritoController extends Controller
         try {
             $carrito = session()->get('carrito', []);
 
+            if (empty($carrito)) {
+                return redirect()->route('carrito.view')->with('error', 'El carrito está vacío.');
+            }
+
             foreach ($carrito as $id => $detalle) {
                 $teni = Teni::find($detalle['id']);
                 if ($teni) {
-                    // Descontar la cantidad del inventario del tenis
                     $teni->cantidad -= $detalle['cantidad'];
                     $teni->save();
-
-                    // Descontar la cantidad del inventario general
-                    /*$inventario = Inventario::where('id_ten', $detalle['id'])->first();
-                    if ($inventario) {
-                        $inventario->exist_inv -= $detalle['cantidad'];
-                        $inventario->save();
-                    }*/
                 }
             }
 
-            // Vaciar el carrito
+            // Redirigir a la pregunta de la factura
+            return redirect()->route('carrito.facturaPregunta');
+        } catch (\Exception $e) {
+            Log::error('Error en procesarCompra: ' . $e->getMessage());
+            return redirect()->route('carrito.view')->with('error', 'Ocurrió un error al procesar la compra.');
+        }
+    }
+
+    public function facturaPregunta()
+    {
+        return view('carrito.factura_pregunta');
+    }
+
+    public function mostrarFormularioFactura()
+    {
+        return view('carrito.factura');
+    }
+
+    public function generarFactura(Request $request)
+    {
+        try {
+            // Validar los datos enviados desde el formulario
+            $validated = $request->validate([
+                'nombre_completo' => 'required|string|max:255',
+                'telefono' => 'required|string|max:15',
+                'rfc' => 'required|string|max:13',
+                'correo' => 'required|email|max:255',
+                'domicilio' => 'required|string|max:500',
+            ]);
+
+            // Obtener los datos del carrito
+            $carrito = session()->get('carrito', []);
+            if (empty($carrito)) {
+                return redirect()->back()->with('error', 'El carrito está vacío.');
+            }
+
+            // Calcular totales
+            $total = array_reduce($carrito, function ($carry, $item) {
+                return $carry + ($item['precio'] * $item['cantidad']);
+            }, 0);
+
+            $subtotal = $total * 0.84;
+            $iva = $total * 0.16;
+            $totalConIva = $total;
+
+            // Usar los datos enviados desde el formulario
+            $datosFactura = [
+                'nombre_completo' => $validated['nombre_completo'],
+                'telefono' => $validated['telefono'],
+                'rfc' => $validated['rfc'],
+                'correo' => $validated['correo'],
+                'domicilio' => $validated['domicilio']
+            ];
+
+            // Renderizar la vista para el PDF
+            $vistaPDF = view('carrito.factura_pdf', compact('carrito', 'total','subtotal', 'iva', 'totalConIva', 'datosFactura'))->render();
+
+            // Generar el PDF con Dompdf
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($vistaPDF);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            // Vaciar el carrito después de generar la factura
             session()->forget('carrito');
 
-            return response()->json(['success' => true]);
+            // Descargar el PDF generado
+            return response()->streamDownload(
+                fn () => print($dompdf->output()),
+                'factura.pdf',
+                ['Content-Type' => 'application/pdf']
+            );
         } catch (\Exception $e) {
-            // Registrar el error para depuración
-            Log::error('Error en procesarCompra: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            Log::error('Error en generarFactura: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al generar la factura.');
         }
     }
 }
